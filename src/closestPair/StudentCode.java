@@ -16,14 +16,14 @@ public class StudentCode {
      */
     public static int closestPair(PointSet P)
             throws TrivialClosestPairException, UnknownSortOptionException {
-    	if(P.size() < 2){
-    		throw new TrivialClosestPairException();
-    	}
-    	if(P.size() <=3){
-    		return PointSet.naiveClosestPair(P);
-    	}
-    	//Calls recursive method with the sorted X and Y axis Points of the PointSet
-    	return closestPairAux(P.sort('x'),P.sort('y'));
+        if(P.size() < 2){
+            throw new TrivialClosestPairException();
+        }
+        if(P.size() <=3){
+            return PointSet.naiveClosestPair(P);
+        }
+        //Calls recursive method with the sorted X and Y axis Points of the PointSet
+        return closestPairAux(P.sort('x'),P.sort('y'));
     }
 
     /** The recursive part of Shamos's Algorithm. The parameter X is an array of
@@ -37,80 +37,62 @@ public class StudentCode {
      *  @throws TrivialClosestPairException     Number of points is less than 2
      *  @throws UnknownSortOptionException      The sorting criteria is unknown
      */
-    private static int naive(Point[] X, Point[] Y){
-    	
-    	return 0;
-    }
+   
     
     
     public static int closestPairAux(Point[] X, Point[] Y)
             throws TrivialClosestPairException, UnknownSortOptionException {
-    	
-    	
-    	
-    	if(X.length <=3){
-    		return naive(X,Y);
-    	}
-		//Make and fill Xl, Xr
-		Point[] ptsXL = new Point[(X.length)/2];
-		Point[] ptsXR = new Point[(X.length)-(ptsXL.length)];
-		for (int i=0; i<(X.length/2); i++){
-			ptsXL[i] = X[i];
-		}
-		for (int i=0; i<((X.length)-(ptsXL.length)); i++){
-			ptsXR[i] = X[(X.length/2) + i];
-		}
+        
+        
+        
+        if(X.length <=3){
+        	PointSet set = new PointSet(X);
+            return PointSet.naiveClosestPair(set);
+        }
+        //Make and fill Xl, Xr
+        Point[] XL = new Point[(X.length)/2];
+        Point[] XR = new Point[(X.length)-(XL.length)];
+        for (int i=0; i<(X.length/2); i++){
+            XL[i] = X[i];
+        }
+        for (int i=0; i<((X.length)-(XL.length)); i++){
+            XR[i] = X[(X.length/2) + i];
+        }
+        
+        
+        
+        Point[] YL = new Point[(XL.length)];
+        Point[] YR = new Point[(XR.length)];
+        Point median = XL[XL.length - 1];
+        
+        splitY(median,Y,YL,YR);
+        
 
-		
-		//Make and fill Yl, Yr
-		Point[] ptsYL = new Point[(ptsXL.length)];
-		Point[] ptsYR = new Point[(ptsXR.length)];
-		Point median = ptsXL[ptsXL.length - 1];
-		int mid = ptsXL[ptsXL.length-1].getX();
-		
-		splitY(median,Y,ptsYL,ptsYR);
-		/*
-		int li = 0;
-		int ri = 0;
+        int deltaLeft = closestPairAux(XL,YL);
+        int deltaRight = closestPairAux(XR,YR);
+        int delta = Math.min(deltaLeft, deltaRight);
+       
+		ArrayList<Point> my = new ArrayList<Point>();
 		for (int i=0; i<Y.length; i++){
-			if(Y[i].getX() <= mid && li<ptsXL.length){
-				ptsYL[li] = Y[i];
-				li++;
+
+			if(Math.abs(Y[i].getX()-median.getX()) <= delta){
+				
+				my.add(Y[i]);
 			}
-			else{
-				ptsYR[ri] = Y[i];
-				ri++;
+		}
+
+		//Search my strip for smaller pairs across divide
+		for (int i=0; i<my.size(); i++) {
+			for (int j=i+1; j<(i+5); j++) {
+				if(j < my.size()){
+					if(my.get(i).sqrDist(my.get(j)) < delta){
+						delta = my.get(i).sqrDist(my.get(j));
+					}
+				}
 			}
-		}*/
-
-    		/*
-    	//Make and fill Xl, Xr
-		Point[] XL = new Point[(X.length)/2];
-		Point[] XR = new Point[(X.length)-(XL.length)];
-		for (int i=0; i<(X.length/2); i++){
-			XL[i] = X[i];
 		}
-		for (int i=0; i<((X.length)-(XL.length)); i++){
-			XR[i] = X[(X.length/2) + i];
-		}
-    	
-    	
-    	Point[] YL = new Point[XL.length];
-    		Point[] YR = new Point[XR.length];
-    	Point median = XL[XL.length - 1];
-
-    	splitY(median,Y,YL,YR);
-    	
-    	
-    	*/
-
-    	int deltaLeft = closestPairAux(ptsXL,ptsYL);
-    	int deltaRight = closestPairAux(ptsXR,ptsYR);
-
-    	int delta = Math.min(deltaLeft, deltaRight);
-    	
-    	
-    	return delta;
+        
+        return delta;
     }
 
     /** Create arrays YL and YR that contain points of Y to the left and to the
@@ -121,33 +103,28 @@ public class StudentCode {
      * @param YL            An output parameter for the YL array
      * @param YR            An output parameter for the YR array
     */
-    public static void splitY(Point mid, Point [] Y, Point [] ptsYL, Point [] ptsYR) {
-    	int li = 0;
-		int ri = 0;
-		
-		for (int i=0; i<Y.length; i++){
-			System.out.println("-----------------");
-
-			System.out.println("i -> " + i + " and Y.length -> " + Y.length);
-			System.out.println("li -> " + li + " and YL.length -> " + ptsYL.length);
-			System.out.println("ri -> " + ri + " and YR.length -> " + ptsYR.length);
-
-			if(Y[i].getX() == mid.getX()){
-				if(Y[i].getY() <= mid.getY()){
-					ptsYL[li++] = Y[i];
-				}
-				else{
-					ptsYR[ri++] = Y[i];
-				}
-			}
-			else if(Y[i].getX() < mid.getX()){
-				ptsYL[li++] = Y[i];
-			}
-			else{
-				ptsYR[ri++] = Y[i];
-				
-			}
-		}
+    public static void splitY(Point mid, Point [] Y, Point [] YL, Point [] YR) {
+        int li = 0;
+        int ri = 0;
+        
+        for (int i=0; i<Y.length; i++){
+            
+            if(Y[i].getX() == mid.getX()){
+                if(Y[i].getY() <= mid.getY()){
+                    YL[li++] = Y[i];
+                }
+                else{
+                    YR[ri++] = Y[i];
+                }
+            }
+            else if(Y[i].getX() < mid.getX()){
+                YL[li++] = Y[i];
+            }
+            else{
+                YR[ri++] = Y[i];
+                
+            }
+        }
     }
 
 }
