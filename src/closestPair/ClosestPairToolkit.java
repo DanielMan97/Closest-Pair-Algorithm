@@ -16,6 +16,8 @@ public class ClosestPairToolkit {
      *  @throws InvalidNumberOfTestsException   Number of tests is negative.
      *  @throws UnwritablePointSetException     Cannot save the point set
      */
+	
+
     public static void closestPairCheck(int t, int n) throws
             InvalidNumberOfTestsException, UnwritablePointSetException {
         try{

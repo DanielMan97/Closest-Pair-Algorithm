@@ -41,15 +41,12 @@ public class StudentCode {
     
     
     public static int closestPairAux(Point[] X, Point[] Y)
-            throws TrivialClosestPairException, UnknownSortOptionException {
-        
-        
-        
+            throws TrivialClosestPairException, UnknownSortOptionException {  
         if(X.length <=3){
         	PointSet set = new PointSet(X);
             return PointSet.naiveClosestPair(set);
         }
-        //Make and fill Xl, Xr
+        //Split X into 2 arrays XL,XR which is evenly disjoint sets.
         Point[] XL = new Point[(X.length)/2];
         Point[] XR = new Point[(X.length)-(XL.length)];
         for (int i=0; i<(X.length/2); i++){
@@ -67,7 +64,7 @@ public class StudentCode {
         
         splitY(median,Y,YL,YR);
         
-
+        //Recurse throughout left and right arrays finding deltaLeft 
         int deltaLeft = closestPairAux(XL,YL);
         int deltaRight = closestPairAux(XR,YR);
         int delta = Math.min(deltaLeft, deltaRight);
@@ -104,24 +101,24 @@ public class StudentCode {
      * @param YR            An output parameter for the YR array
     */
     public static void splitY(Point mid, Point [] Y, Point [] YL, Point [] YR) {
-        int li = 0;
-        int ri = 0;
+        int l = 0;
+        int r = 0;
         
         for (int i=0; i<Y.length; i++){
             
             if(Y[i].getX() == mid.getX()){
                 if(Y[i].getY() <= mid.getY()){
-                    YL[li++] = Y[i];
+                    YL[l++] = Y[i];
                 }
                 else{
-                    YR[ri++] = Y[i];
+                    YR[r++] = Y[i];
                 }
             }
             else if(Y[i].getX() < mid.getX()){
-                YL[li++] = Y[i];
+                YL[l++] = Y[i];
             }
             else{
-                YR[ri++] = Y[i];
+                YR[r++] = Y[i];
                 
             }
         }
