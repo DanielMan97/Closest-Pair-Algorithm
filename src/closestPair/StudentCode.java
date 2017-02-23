@@ -61,6 +61,7 @@ public class StudentCode {
 			ptsXR[i] = X[(X.length/2) + i];
 		}
 
+		
 		//Make and fill Yl, Yr
 		Point[] ptsYL = new Point[(ptsXL.length)];
 		Point[] ptsYR = new Point[(ptsXR.length)];
@@ -68,7 +69,7 @@ public class StudentCode {
 		int mid = ptsXL[ptsXL.length-1].getX();
 		
 		splitY(median,Y,ptsYL,ptsYR);
-	/*	
+		/*
 		int li = 0;
 		int ri = 0;
 		for (int i=0; i<Y.length; i++){
@@ -80,8 +81,8 @@ public class StudentCode {
 				ptsYR[ri] = Y[i];
 				ri++;
 			}
-		}
-*/
+		}*/
+
     		/*
     	//Make and fill Xl, Xr
 		Point[] XL = new Point[(X.length)/2];
@@ -120,17 +121,31 @@ public class StudentCode {
      * @param YL            An output parameter for the YL array
      * @param YR            An output parameter for the YR array
     */
-    public static void splitY(Point testPoint, Point [] Y, Point [] YL, Point [] YR) {
+    public static void splitY(Point mid, Point [] Y, Point [] ptsYL, Point [] ptsYR) {
     	int li = 0;
 		int ri = 0;
+		
 		for (int i=0; i<Y.length; i++){
-			if(Y[i].getX() <= testPoint.getX() && li<YL.length){
-				YL[li] = Y[i];
-				li++;
+			System.out.println("-----------------");
+
+			System.out.println("i -> " + i + " and Y.length -> " + Y.length);
+			System.out.println("li -> " + li + " and YL.length -> " + ptsYL.length);
+			System.out.println("ri -> " + ri + " and YR.length -> " + ptsYR.length);
+
+			if(Y[i].getX() == mid.getX()){
+				if(Y[i].getY() <= mid.getY()){
+					ptsYL[li++] = Y[i];
+				}
+				else{
+					ptsYR[ri++] = Y[i];
+				}
+			}
+			else if(Y[i].getX() < mid.getX()){
+				ptsYL[li++] = Y[i];
 			}
 			else{
-				YR[ri] = Y[i];
-				ri++;
+				ptsYR[ri++] = Y[i];
+				
 			}
 		}
     }
