@@ -76,26 +76,37 @@ public class StudentCode {
 		}    
         return strip(stripList,delta);
     }
-private static int strip(List<Point> stripList, int delta){
-	for (int i=0; i<stripList.size(); i++) {
-		for (int j=i+1; j<(i+5); j++) {
-			if(j < stripList.size()){
-				if(stripList.get(i).sqrDist(stripList.get(j)) < delta){
-					delta = stripList.get(i).sqrDist(stripList.get(j));
+    
+	    /** 
+	     *  @param stripList Points on strip
+	     *  @param delta The closest point so far.
+	     *  @return The closest point
+	     */
+	private static int strip(List<Point> stripList, int delta){
+		for (int i=0; i<stripList.size(); i++) {
+			for (int j=i+1; j<(i+5); j++) {
+				if(j < stripList.size()){
+					if(stripList.get(i).sqrDist(stripList.get(j)) < delta){
+						delta = stripList.get(i).sqrDist(stripList.get(j));
+					}
 				}
 			}
 		}
+		return delta;
 	}
-	return delta;
-}
-private static void partitionX(Point[] X, Point[] XL, Point[] XR){
-	 for (int i=0; i<(X.length/2); i++){
-         XL[i] = X[i];
-     }
-     for (int i=0; i<((X.length)-(XL.length)); i++){
-         XR[i] = X[(X.length/2) + i];
-     }
-}
+	/** 
+	 *  @param X This holds all the Points sorted by X-value.
+	 *  @param XL the left side of X that will be partitioned into.
+	 *  @param XR the right side of X that will be partitioned into.
+	 */
+	private static void partitionX(Point[] X, Point[] XL, Point[] XR){
+		 for (int i=0; i<(X.length/2); i++){
+	         XL[i] = X[i];
+	     }
+	     for (int i=0; i<((X.length)-(XL.length)); i++){
+	         XR[i] = X[(X.length/2) + i];
+	     }
+	}
     /** Create arrays YL and YR that contain points of Y to the left and to the
      *  right of testPoint respectively.
      *
