@@ -28,6 +28,7 @@ public class ClosestPairToolkit {
             boolean isSuccess = true;
     
             for (int i = 1; i <= t; i++) {
+            	System.out.println("\n");
                 System.out.print("Test " + i + ": ");
                 PointSet p = PointSet.generatePoints(n);
                 System.out.print("(Naive algorithm: ");
@@ -36,7 +37,7 @@ public class ClosestPairToolkit {
                 int studentResult = StudentCode.closestPair(p);
                 System.out.print("done)");
                 if (naiveResult == studentResult) {
-                    System.out.println(" ... comparison successful");
+                 //   System.out.println(" ... comparison successful");
                 } else {
                     isSuccess = false;
                     System.out.println(" ... comparison unsuccessful");

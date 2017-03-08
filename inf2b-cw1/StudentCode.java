@@ -69,7 +69,7 @@ public class StudentCode {
        
 		ArrayList<Point> stripList = new ArrayList<Point>();
 		for (int i=0; i<Y.length; i++){
-			if(Math.abs(Y[i].getX()-median.getX()) <= 2 * delta){ // <= 2 * delta to cover each side of the strip
+			if(Math.abs(Y[i].getX()-median.getX()) <=  delta){ // <= delta to cover each side of the strip
 
 				stripList.add(Y[i]);
 			}
