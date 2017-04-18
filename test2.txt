@@ -1,4 +1,4 @@
-//  Input-size	    Naive-RT	    Student-RT
+///  Input-size	    Naive-RT	    Student-RT
             10	          72	          2044
             20	          55	           529
             30	          65	           723
